@@ -18,6 +18,7 @@ def main():
         
         screen.fill("black")
         player.draw(screen)
+        player.update(dt)
         pg.display.flip()
         dt = clock.tick(60)/1000.0
 
