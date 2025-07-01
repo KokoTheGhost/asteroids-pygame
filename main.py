@@ -4,6 +4,7 @@ from constants import *
 from player import Player
 from asteroid import Asteroid
 from asteroidField import AsteroidField
+from shot import Shot
 
 def main():
     print("Starting Asteroids!")
@@ -13,10 +14,12 @@ def main():
     clock = pg.time.Clock()
     dt = 0.0
 
+    shots = pg.sprite.Group()
     asteroids = pg.sprite.Group()
     updatable = pg.sprite.Group()
     drawable = pg.sprite.Group()
 
+    Shot.containers = (shots, updatable, drawable)
     Asteroid.containers = (updatable, drawable, asteroids)
     Player.containers = (updatable, drawable)
     AsteroidField.containers = (updatable)
@@ -32,6 +35,12 @@ def main():
         screen.fill("black")
         
         updatable.update(dt)
+
+        # Check for collisions
+        for asteroid in asteroids:
+            if player.collision(asteroid):
+                print("Game Over!")
+                return                
         
         for sprite in drawable:
             sprite.draw(screen)
